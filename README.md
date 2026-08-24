@@ -9,12 +9,10 @@ for GitHub Pages.
 2. She chooses one or more possible dates and times.
 3. She chooses activities such as pickleball, dinner, or coffee.
 4. Her response is emailed to the inviter through FormSubmit.
-5. The site reveals a wedding-invitation-style "佳期已定" confirmation and a reply link she can save or share.
+5. The site reveals a wedding-invitation-style "佳期已定" confirmation.
 
 No custom backend or database is used. FormSubmit receives the selected date, activities,
-optional note, and reply link to deliver the email. The reply is also encoded in the URL
-fragment, which browsers do not send to GitHub Pages. Anyone who receives the link can
-still read the reply, so it should be shared only with the inviter.
+and optional note to deliver the email.
 
 ## Run locally
 

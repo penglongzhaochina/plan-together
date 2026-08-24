@@ -1,8 +1,4 @@
-import {
-  createShareUrl,
-  isValidPlan,
-  parsePlanFromHash,
-} from "./plan-utils.js";
+import { isValidPlan } from "./plan-utils.js";
 
 const DRAFT_KEY = "plan-together-draft";
 const PLAN_KEY = "plan-together-plan";
@@ -15,17 +11,13 @@ const submitButton = document.querySelector("#submit-answer");
 const confirmationDetails = document.querySelector("#confirmation-details");
 const confirmationNote = document.querySelector("#confirmation-note");
 const deliveryStatus = document.querySelector("#delivery-status");
-const shareUrlInput = document.querySelector("#share-url");
-const copyButton = document.querySelector("#copy-link");
-const shareButton = document.querySelector("#share-answer");
 const startOverLink = document.querySelector("#start-over");
 
 const draft = readJson(DRAFT_KEY);
 const storedPlan = readJson(PLAN_KEY);
-const sharedPlan = parsePlanFromHash(window.location.hash);
 
-if (isCompletedPlan(sharedPlan)) {
-  showConfirmation(sharedPlan);
+if (isCompletedPlan(storedPlan)) {
+  showConfirmation(storedPlan);
 } else if (!draft || !isValidPlan(storedPlan)) {
   window.location.replace("index.html");
 }
@@ -57,11 +49,10 @@ form.addEventListener("submit", async (event) => {
     ...storedPlan,
     responses: [...storedPlan.responses, draft],
   };
-  const replyUrl = createShareUrl(window.location.href, completedPlan);
 
   setSubmitting(true);
   try {
-    await emailResponse(draft, replyUrl);
+    await emailResponse(draft);
     sessionStorage.removeItem(DRAFT_KEY);
     sessionStorage.setItem(PLAN_KEY, JSON.stringify(completedPlan));
     showConfirmation(completedPlan, true);
@@ -70,37 +61,6 @@ form.addEventListener("submit", async (event) => {
   } finally {
     setSubmitting(false);
   }
-});
-
-copyButton.addEventListener("click", async () => {
-  await copyText(shareUrlInput.value);
-  copyButton.textContent = "Copied!";
-  window.setTimeout(() => {
-    copyButton.textContent = "Copy link";
-  }, 1800);
-});
-
-shareButton.addEventListener("click", async () => {
-  const response = getCompletedResponse(sharedPlan ?? storedPlan);
-  const text = buildShareText(response);
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: "佳期已定 · You & Judy",
-        text,
-        url: shareUrlInput.value,
-      });
-      return;
-    } catch (shareError) {
-      if (shareError.name === "AbortError") {
-        return;
-      }
-    }
-  }
-
-  await copyText(`${text}\n${shareUrlInput.value}`);
-  shareButton.textContent = "Reply copied — send it to me ♥";
 });
 
 startOverLink.addEventListener("click", () => {
@@ -114,7 +74,6 @@ function showConfirmation(plan, emailSent = false) {
     return;
   }
 
-  shareUrlInput.value = createShareUrl(window.location.href, plan);
   confirmationDetails.replaceChildren(
     createDetail("When", response.availability.map(formatSlot)),
     createDetail("Our date adventure", response.activities),
@@ -132,7 +91,7 @@ function showConfirmation(plan, emailSent = false) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-async function emailResponse(response, replyUrl) {
+async function emailResponse(response) {
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), 15000);
   const payload = {
@@ -143,7 +102,6 @@ async function emailResponse(response, replyUrl) {
     available_times: response.availability.map(formatSlot).join("\n"),
     activities: response.activities.join(", "),
     note: response.note || "No additional note",
-    reply_link: replyUrl,
   };
 
   try {
@@ -195,12 +153,6 @@ function createDetail(label, values) {
   return detail;
 }
 
-function buildShareText(response) {
-  const dates = response.availability.map(formatSlot).join("; ");
-  const activities = response.activities.join(", ");
-  return `Yes, I’d love to! Our date: ${dates}. I chose: ${activities}.`;
-}
-
 function getCompletedResponse(plan) {
   return isCompletedPlan(plan) ? plan.responses[0] : null;
 }
@@ -221,15 +173,6 @@ function formatSlot(slot) {
     day: "numeric",
   }).format(date);
   return `${formattedDate} · ${slot.startTime}–${slot.endTime}`;
-}
-
-async function copyText(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch {
-    shareUrlInput.select();
-    document.execCommand("copy");
-  }
 }
 
 function readJson(key) {

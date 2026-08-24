@@ -48,48 +48,6 @@ function isValidSlot(slot) {
   );
 }
 
-export function encodePlan(plan) {
-  if (!isValidPlan(plan)) {
-    throw new Error("Cannot encode an invalid plan.");
-  }
-
-  const bytes = new TextEncoder().encode(JSON.stringify(plan));
-  let binary = "";
-  for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
-  }
-
-  return btoa(binary)
-    .replaceAll("+", "-")
-    .replaceAll("/", "_")
-    .replaceAll("=", "");
-}
-
-export function decodePlan(encoded) {
-  try {
-    const base64 = encoded.replaceAll("-", "+").replaceAll("_", "/");
-    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
-    const binary = atob(padded);
-    const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-    const plan = JSON.parse(new TextDecoder().decode(bytes));
-    return isValidPlan(plan) ? plan : null;
-  } catch {
-    return null;
-  }
-}
-
-export function parsePlanFromHash(hash) {
-  const parameters = new URLSearchParams(hash.replace(/^#/, ""));
-  const encoded = parameters.get("plan");
-  return encoded ? decodePlan(encoded) : null;
-}
-
-export function createShareUrl(currentUrl, plan) {
-  const url = new URL("activities.html", currentUrl);
-  url.hash = `plan=${encodePlan(plan)}`;
-  return url.toString();
-}
-
 export function findCommonActivities(responses) {
   if (responses.length < 2) {
     return [];
