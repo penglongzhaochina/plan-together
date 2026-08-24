@@ -346,6 +346,12 @@ textarea {
   transform: translateY(-1px);
 }
 
+.button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
 .button.primary {
   color: white;
   background: var(--peach);
@@ -406,6 +412,11 @@ textarea {
 .privacy-note.left {
   margin-top: 0.65rem;
   text-align: left;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
 }
 
 .error {
@@ -476,6 +487,15 @@ textarea {
 
 .result-card {
   text-align: center;
+}
+
+.delivery-status {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  color: #6f3448;
+  background: #f7e9df;
+  border-radius: 12px;
+  font-weight: 750;
 }
 
 .keepsake-card {

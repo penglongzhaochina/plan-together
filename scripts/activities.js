@@ -6,12 +6,15 @@ import {
 
 const DRAFT_KEY = "plan-together-draft";
 const PLAN_KEY = "plan-together-plan";
+const EMAIL_ENDPOINT = "https://formsubmit.co/ajax/523777764@qq.com";
 const form = document.querySelector("#activity-form");
 const activityCard = document.querySelector("#activity-card");
 const resultCard = document.querySelector("#result-card");
 const error = document.querySelector("#form-error");
+const submitButton = document.querySelector("#submit-answer");
 const confirmationDetails = document.querySelector("#confirmation-details");
 const confirmationNote = document.querySelector("#confirmation-note");
+const deliveryStatus = document.querySelector("#delivery-status");
 const shareUrlInput = document.querySelector("#share-url");
 const copyButton = document.querySelector("#copy-link");
 const shareButton = document.querySelector("#share-answer");
@@ -27,9 +30,13 @@ if (isCompletedPlan(sharedPlan)) {
   window.location.replace("index.html");
 }
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
   hideError();
+
+  if (document.querySelector("#website-field").value) {
+    return;
+  }
 
   const activities = [...document.querySelectorAll('[name="activity"]:checked')]
     .map((input) => input.value);
@@ -46,11 +53,23 @@ form.addEventListener("submit", (event) => {
 
   draft.activities = [...new Set(activities)];
   draft.note = document.querySelector("#participant-note").value.trim();
-  storedPlan.responses.push(draft);
+  const completedPlan = {
+    ...storedPlan,
+    responses: [...storedPlan.responses, draft],
+  };
+  const replyUrl = createShareUrl(window.location.href, completedPlan);
 
-  sessionStorage.removeItem(DRAFT_KEY);
-  sessionStorage.setItem(PLAN_KEY, JSON.stringify(storedPlan));
-  showConfirmation(storedPlan);
+  setSubmitting(true);
+  try {
+    await emailResponse(draft, replyUrl);
+    sessionStorage.removeItem(DRAFT_KEY);
+    sessionStorage.setItem(PLAN_KEY, JSON.stringify(completedPlan));
+    showConfirmation(completedPlan, true);
+  } catch (submissionError) {
+    showError(submissionError.message);
+  } finally {
+    setSubmitting(false);
+  }
 });
 
 copyButton.addEventListener("click", async () => {
@@ -89,7 +108,7 @@ startOverLink.addEventListener("click", () => {
   sessionStorage.removeItem(PLAN_KEY);
 });
 
-function showConfirmation(plan) {
+function showConfirmation(plan, emailSent = false) {
   const response = getCompletedResponse(plan);
   if (!response) {
     return;
@@ -106,10 +125,58 @@ function showConfirmation(plan) {
     confirmationNote.hidden = false;
   }
 
+  deliveryStatus.hidden = !emailSent;
   activityCard.hidden = true;
   resultCard.hidden = false;
   resultCard.focus();
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function emailResponse(response, replyUrl) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15000);
+  const payload = {
+    _subject: "Judy accepted your date invitation ♥",
+    _template: "table",
+    _captcha: "false",
+    response: "Yes, I’d love to!",
+    available_times: response.availability.map(formatSlot).join("\n"),
+    activities: response.activities.join(", "),
+    note: response.note || "No additional note",
+    reply_link: replyUrl,
+  };
+
+  try {
+    const request = await fetch(EMAIL_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    const result = await request.json().catch(() => null);
+
+    if (!request.ok || result?.success === "false" || result?.success === false) {
+      throw new Error("I couldn’t email your answer. Please try again in a moment.");
+    }
+  } catch (requestError) {
+    if (requestError.name === "AbortError") {
+      throw new Error("Email delivery took too long. Please check your connection and try again.");
+    }
+    if (requestError instanceof TypeError) {
+      throw new Error("I couldn’t reach the email service. Please check your connection and try again.");
+    }
+    throw requestError;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function setSubmitting(isSubmitting) {
+  submitButton.disabled = isSubmitting;
+  submitButton.textContent = isSubmitting ? "Sending your answer…" : "Make it a date ♥";
 }
 
 function createDetail(label, values) {

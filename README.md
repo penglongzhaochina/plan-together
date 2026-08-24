@@ -8,12 +8,13 @@ for GitHub Pages.
 1. Judy opens the invitation and accepts the date.
 2. She chooses one or more possible dates and times.
 3. She chooses activities such as pickleball, dinner, or coffee.
-4. The site reveals a wedding-invitation-style "佳期已定" confirmation.
-5. Judy shares the generated reply link so the inviter can see her choices.
+4. Her response is emailed to the inviter through FormSubmit.
+5. The site reveals a wedding-invitation-style "佳期已定" confirmation and a reply link she can save or share.
 
-No backend or database is used. Judy's reply is encoded in the URL fragment, which
-browsers do not send to the web server. Anyone who receives the link can still read
-the reply, so the link should be shared only with the inviter.
+No custom backend or database is used. FormSubmit receives the selected date, activities,
+optional note, and reply link to deliver the email. The reply is also encoded in the URL
+fragment, which browsers do not send to GitHub Pages. Anyone who receives the link can
+still read the reply, so it should be shared only with the inviter.
 
 ## Run locally
 
