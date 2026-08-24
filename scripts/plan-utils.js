@@ -85,7 +85,7 @@ export function parsePlanFromHash(hash) {
 }
 
 export function createShareUrl(currentUrl, plan) {
-  const url = new URL("index.html", currentUrl);
+  const url = new URL("activities.html", currentUrl);
   url.hash = `plan=${encodePlan(plan)}`;
   return url.toString();
 }

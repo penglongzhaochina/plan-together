@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#c84b6f">
-    <title>You &amp; Judy - Pick a Time</title>
-    <link rel="stylesheet" href="styles.css?v=20260824-1">
+    <title>Judy, Will You Go on a Date with Me?</title>
+    <link rel="stylesheet" href="styles.css?v=20260824-2">
   </head>
   <body>
     <main class="shell">
@@ -15,14 +15,25 @@
           <span class="brand-mark" aria-hidden="true">♥</span>
           You &amp; Judy
         </a>
-        <p class="eyebrow">A little time for two</p>
-        <h1>When can the magic happen?</h1>
-        <p class="intro">Choose a few moments that work for you, then invite Judy to find the perfect match.</p>
+        <p class="eyebrow">A little invitation, just for you</p>
+        <h1>Judy, would you go on a date with me?</h1>
+        <p class="intro">I would love to spend a lovely day with you. If your heart says yes, choose a time that feels right.</p>
       </header>
 
-      <section class="card" aria-labelledby="availability-heading">
+      <section id="invitation-card" class="card invitation-card" aria-labelledby="invitation-heading">
+        <p class="invitation-flourish" aria-hidden="true">❦</p>
+        <h2 id="invitation-heading">A small question from my heart</h2>
+        <p>No pressure, only a sincere hope that we can make a beautiful memory together.</p>
+        <div class="decision-row">
+          <button id="accept-invitation" class="button primary grow" type="button">Yes, I’d love to ♥</button>
+          <button id="maybe-later" class="button secondary" type="button">Maybe another day</button>
+        </div>
+        <p id="gentle-reply" class="gentle-reply" hidden>That is completely okay. This invitation will always stay warm.</p>
+      </section>
+
+      <section id="availability-card" class="card" aria-labelledby="availability-heading" hidden>
         <div class="love-note" aria-hidden="true">
-          <span>you</span>
+          <span>You</span>
           <b>♥</b>
           <span>Judy</span>
         </div>
@@ -31,15 +42,13 @@
           <span class="progress-line"></span>
           <span class="progress-step">2</span>
         </div>
-        <div id="invite-banner" class="invite-banner" hidden></div>
-
         <form id="availability-form">
-          <h2 id="availability-heading" class="sr-only">Your availability</h2>
+          <h2 id="availability-heading" class="sr-only">Judy's preferred date and time</h2>
 
           <div class="section-heading">
             <div>
-              <span class="label">Your date possibilities</span>
-              <p>Choose up to 10 moments you could spend together.</p>
+              <span class="label">When shall we make our memory?</span>
+              <p>Choose one or more moments that feel lovely to you.</p>
             </div>
             <button id="add-slot" class="button secondary compact" type="button">+ Add time</button>
           </div>
@@ -48,14 +57,14 @@
           <p id="form-error" class="error" role="alert" hidden></p>
 
           <button class="button primary full" type="submit">
-            Next: dream up the date
+            Next: choose our date adventure
             <span aria-hidden="true">→</span>
           </button>
         </form>
       </section>
 
       <p class="privacy-note">
-        🔒 Nothing is uploaded. Plan details live only inside the invite link.
+        🔒 Nothing is uploaded. Your reply stays in your browser until you choose to share it.
       </p>
     </main>
 
@@ -80,6 +89,6 @@
       </fieldset>
     </template>
 
-    <script type="module" src="scripts/index.js?v=20260824-1"></script>
+    <script type="module" src="scripts/index.js?v=20260824-2"></script>
   </body>
 </html>

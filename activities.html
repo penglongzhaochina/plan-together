@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#c84b6f">
-    <title>You &amp; Judy - Choose a Date</title>
-    <link rel="stylesheet" href="styles.css?v=20260824-1">
+    <title>Judy's Date Invitation</title>
+    <link rel="stylesheet" href="styles.css?v=20260824-2">
   </head>
   <body>
     <main class="shell">
@@ -15,14 +15,14 @@
           <span class="brand-mark" aria-hidden="true">♥</span>
           You &amp; Judy
         </a>
-        <p class="eyebrow">Make it memorable</p>
-        <h1>What would make Judy smile?</h1>
-        <p class="intro">Choose everything that sounds lovely. We will reveal the ideas you both picked.</p>
+        <p class="eyebrow">One more lovely choice</p>
+        <h1>Judy, what would make you smile?</h1>
+        <p class="intro">Choose one or more activities you would enjoy, and our little date will be beautifully arranged.</p>
       </header>
 
       <section id="activity-card" class="card" aria-labelledby="activity-heading">
         <div class="love-note" aria-hidden="true">
-          <span>you</span>
+          <span>You</span>
           <b>♥</b>
           <span>Judy</span>
         </div>
@@ -70,44 +70,46 @@
           </label>
 
           <label class="field">
-            <span>Note <small>(optional)</small></span>
+            <span>A little note for me <small>(optional)</small></span>
             <textarea id="participant-note" maxlength="200" rows="3"
-              placeholder="Leave Judy a sweet note..."></textarea>
+              placeholder="A favorite place, a sweet request, or anything on your mind..."></textarea>
           </label>
 
           <p id="form-error" class="error" role="alert" hidden></p>
           <div class="button-row">
             <a class="button secondary" href="index.html">← Back</a>
-            <button class="button primary grow" type="submit">Save my date wishes</button>
+            <button class="button primary grow" type="submit">Make it a date ♥</button>
           </div>
         </form>
       </section>
 
-      <section id="result-card" class="card result-card" aria-labelledby="result-heading" hidden>
-        <div class="success-mark" aria-hidden="true">♥</div>
-        <p class="eyebrow">One step closer</p>
-        <h1 id="result-heading">Now invite Judy</h1>
-        <p id="result-count" class="intro"></p>
+      <section id="result-card" class="card result-card keepsake-card" aria-labelledby="result-heading" tabindex="-1" hidden>
+        <p class="invitation-flourish" aria-hidden="true">❦</p>
+        <p class="eyebrow">You &amp; Judy</p>
+        <h1 id="result-heading" lang="zh-CN">佳期已定</h1>
+        <p class="keepsake-subtitle">Our lovely date is waiting for us</p>
 
-        <div id="matches" class="matches"></div>
-
-        <div class="share-panel">
-          <label class="field">
-            <span>Judy's invitation link</span>
-            <div class="copy-field">
-              <input id="share-url" type="text" readonly>
-              <button id="copy-link" class="button primary compact" type="button">Copy</button>
-            </div>
-          </label>
-          <p class="privacy-note left">
-            Anyone with this link can read the plan. Share it only with people you trust.
-          </p>
+        <div id="confirmation-details" class="keepsake-details" aria-live="polite"></div>
+        <p id="confirmation-note" class="keepsake-note" hidden></p>
+        <div class="keepsake-signature">
+          <span>You</span><b>♥</b><span>Judy</span>
         </div>
 
-        <a id="add-response" class="button secondary full" href="index.html">Open the invitation for Judy</a>
+        <div class="share-panel">
+          <p class="label">Send your answer back to me</p>
+          <p class="share-help">This site has no server, so please share this reply link with me after you finish.</p>
+          <label class="sr-only" for="share-url">Reply link</label>
+          <div class="copy-field">
+            <input id="share-url" type="text" readonly>
+            <button id="copy-link" class="button secondary compact" type="button">Copy link</button>
+          </div>
+          <button id="share-answer" class="button primary full" type="button">Send my answer ♥</button>
+        </div>
+
+        <a id="start-over" class="button secondary full" href="index.html">Change my choices</a>
       </section>
     </main>
 
-    <script type="module" src="scripts/activities.js?v=20260824-1"></script>
+    <script type="module" src="scripts/activities.js?v=20260824-2"></script>
   </body>
 </html>

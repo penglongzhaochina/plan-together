@@ -1,31 +1,35 @@
 import {
   createEmptyPlan,
-  parsePlanFromHash,
 } from "./plan-utils.js";
 
 const DRAFT_KEY = "plan-together-draft";
 const PLAN_KEY = "plan-together-plan";
 const form = document.querySelector("#availability-form");
+const invitationCard = document.querySelector("#invitation-card");
+const availabilityCard = document.querySelector("#availability-card");
+const acceptButton = document.querySelector("#accept-invitation");
+const maybeButton = document.querySelector("#maybe-later");
+const gentleReply = document.querySelector("#gentle-reply");
 const slots = document.querySelector("#slots");
 const slotTemplate = document.querySelector("#slot-template");
 const addSlotButton = document.querySelector("#add-slot");
 const error = document.querySelector("#form-error");
-const inviteBanner = document.querySelector("#invite-banner");
+const plan = createEmptyPlan();
 
-const sharedPlan = parsePlanFromHash(window.location.hash);
-const plan = sharedPlan ?? createEmptyPlan();
-
+sessionStorage.removeItem(DRAFT_KEY);
 sessionStorage.setItem(PLAN_KEY, JSON.stringify(plan));
 
-if (sharedPlan) {
-  const count = plan.responses.length;
-  inviteBanner.textContent = count === 1
-    ? "Your invitation has arrived, Judy. Add the moments that work for you."
-    : "You and Judy have both shared choices. Add another response only if you want to update the plan.";
-  inviteBanner.hidden = false;
-} else if (window.location.hash) {
-  showError("This invite link is incomplete or invalid. You can start a new plan below.");
-}
+acceptButton.addEventListener("click", () => {
+  gentleReply.hidden = true;
+  invitationCard.hidden = true;
+  availabilityCard.hidden = false;
+  availabilityCard.querySelector("input").focus();
+});
+
+maybeButton.addEventListener("click", () => {
+  gentleReply.hidden = false;
+  maybeButton.textContent = "Thank you for being honest ♥";
+});
 
 function addSlot(defaults = {}) {
   if (slots.children.length >= 10) {
@@ -86,14 +90,14 @@ form.addEventListener("submit", (event) => {
 
   const draft = {
     id: crypto.randomUUID(),
-    name: plan.responses.length === 0 ? "You" : "Judy",
+    name: "Judy",
     availability,
     activities: [],
     note: "",
   };
 
   sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-  window.location.assign(`activities.html${window.location.hash}`);
+  window.location.assign("activities.html");
 });
 
 function getLocalDate() {

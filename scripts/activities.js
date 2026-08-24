@@ -1,8 +1,7 @@
 import {
   createShareUrl,
-  findCommonActivities,
-  findCommonTimes,
   isValidPlan,
+  parsePlanFromHash,
 } from "./plan-utils.js";
 
 const DRAFT_KEY = "plan-together-draft";
@@ -11,20 +10,22 @@ const form = document.querySelector("#activity-form");
 const activityCard = document.querySelector("#activity-card");
 const resultCard = document.querySelector("#result-card");
 const error = document.querySelector("#form-error");
-const matches = document.querySelector("#matches");
+const confirmationDetails = document.querySelector("#confirmation-details");
+const confirmationNote = document.querySelector("#confirmation-note");
 const shareUrlInput = document.querySelector("#share-url");
 const copyButton = document.querySelector("#copy-link");
-const addResponseLink = document.querySelector("#add-response");
-const backLink = document.querySelector('.button[href="index.html"]');
+const shareButton = document.querySelector("#share-answer");
+const startOverLink = document.querySelector("#start-over");
 
 const draft = readJson(DRAFT_KEY);
 const storedPlan = readJson(PLAN_KEY);
+const sharedPlan = parsePlanFromHash(window.location.hash);
 
-if (!draft || !isValidPlan(storedPlan)) {
+if (isCompletedPlan(sharedPlan)) {
+  showConfirmation(sharedPlan);
+} else if (!draft || !isValidPlan(storedPlan)) {
   window.location.replace("index.html");
 }
-
-backLink.href = `index.html${window.location.hash}`;
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -47,107 +48,121 @@ form.addEventListener("submit", (event) => {
   draft.note = document.querySelector("#participant-note").value.trim();
   storedPlan.responses.push(draft);
 
-  const shareUrl = createShareUrl(window.location.href, storedPlan);
-  shareUrlInput.value = shareUrl;
-  addResponseLink.href = shareUrl;
-  renderResults(storedPlan);
-
   sessionStorage.removeItem(DRAFT_KEY);
   sessionStorage.setItem(PLAN_KEY, JSON.stringify(storedPlan));
+  showConfirmation(storedPlan);
+});
+
+copyButton.addEventListener("click", async () => {
+  await copyText(shareUrlInput.value);
+  copyButton.textContent = "Copied!";
+  window.setTimeout(() => {
+    copyButton.textContent = "Copy link";
+  }, 1800);
+});
+
+shareButton.addEventListener("click", async () => {
+  const response = getCompletedResponse(sharedPlan ?? storedPlan);
+  const text = buildShareText(response);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "佳期已定 · You & Judy",
+        text,
+        url: shareUrlInput.value,
+      });
+      return;
+    } catch (shareError) {
+      if (shareError.name === "AbortError") {
+        return;
+      }
+    }
+  }
+
+  await copyText(`${text}\n${shareUrlInput.value}`);
+  shareButton.textContent = "Reply copied — send it to me ♥";
+});
+
+startOverLink.addEventListener("click", () => {
+  sessionStorage.removeItem(DRAFT_KEY);
+  sessionStorage.removeItem(PLAN_KEY);
+});
+
+function showConfirmation(plan) {
+  const response = getCompletedResponse(plan);
+  if (!response) {
+    return;
+  }
+
+  shareUrlInput.value = createShareUrl(window.location.href, plan);
+  confirmationDetails.replaceChildren(
+    createDetail("When", response.availability.map(formatSlot)),
+    createDetail("Our date adventure", response.activities),
+  );
+
+  if (response.note) {
+    confirmationNote.textContent = `“${response.note}”`;
+    confirmationNote.hidden = false;
+  }
+
   activityCard.hidden = true;
   resultCard.hidden = false;
   resultCard.focus();
   window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-copyButton.addEventListener("click", async () => {
-  try {
-    await navigator.clipboard.writeText(shareUrlInput.value);
-  } catch {
-    shareUrlInput.select();
-    document.execCommand("copy");
-  }
-
-  copyButton.textContent = "Copied!";
-  window.setTimeout(() => {
-    copyButton.textContent = "Copy";
-  }, 1800);
-});
-
-function renderResults(plan) {
-  const responseCount = plan.responses.length;
-  const resultHeading = document.querySelector("#result-heading");
-  document.querySelector("#result-count").textContent = responseCount === 1
-    ? "Your choices are saved. Send the invitation to Judy."
-    : "You and Judy found your date possibilities.";
-  resultHeading.textContent = responseCount === 1
-    ? "Now invite Judy"
-    : "A lovely plan is taking shape";
-  addResponseLink.textContent = responseCount === 1
-    ? "Open the invitation for Judy"
-    : "Plan another date";
-  if (responseCount > 1) {
-    addResponseLink.href = "index.html";
-  }
-
-  matches.replaceChildren();
-  if (responseCount === 1) {
-    matches.append(createPanel(
-      "Waiting for Judy's match",
-      "After Judy adds her response, the page will reveal the times and activities you both chose.",
-    ));
-    return;
-  }
-
-  const commonTimes = findCommonTimes(plan.responses);
-  const timeContent = commonTimes.length
-    ? createList(commonTimes.map(formatSlot))
-    : "No exact time overlap yet. Try adding more options.";
-  matches.append(createPanel("Your time together", timeContent));
-
-  const commonActivities = findCommonActivities(plan.responses);
-  const activityContent = commonActivities.length
-    ? createList(commonActivities)
-    : "No shared activity yet, but you can still choose together.";
-  matches.append(createPanel("You would both love", activityContent));
 }
 
-function createPanel(title, content) {
-  const panel = document.createElement("section");
-  panel.className = "match-panel";
+function createDetail(label, values) {
+  const detail = document.createElement("section");
+  detail.className = "keepsake-detail";
   const heading = document.createElement("h2");
-  heading.textContent = title;
-  panel.append(heading);
+  heading.textContent = label;
+  detail.append(heading);
 
-  if (content instanceof Node) {
-    panel.append(content);
-  } else {
+  for (const value of values) {
     const paragraph = document.createElement("p");
-    paragraph.textContent = content;
-    panel.append(paragraph);
+    paragraph.textContent = value;
+    detail.append(paragraph);
   }
 
-  return panel;
+  return detail;
 }
 
-function createList(items) {
-  const list = document.createElement("ul");
-  for (const item of items) {
-    const listItem = document.createElement("li");
-    listItem.textContent = item;
-    list.append(listItem);
-  }
-  return list;
+function buildShareText(response) {
+  const dates = response.availability.map(formatSlot).join("; ");
+  const activities = response.activities.join(", ");
+  return `Yes, I’d love to! Our date: ${dates}. I chose: ${activities}.`;
+}
+
+function getCompletedResponse(plan) {
+  return isCompletedPlan(plan) ? plan.responses[0] : null;
+}
+
+function isCompletedPlan(plan) {
+  return isValidPlan(plan)
+    && plan.responses.length === 1
+    && plan.responses[0].availability.length > 0
+    && plan.responses[0].activities.length > 0;
 }
 
 function formatSlot(slot) {
   const date = new Date(`${slot.date}T00:00:00`);
   const formattedDate = new Intl.DateTimeFormat(undefined, {
-    weekday: "short",
-    month: "short",
+    weekday: "long",
+    year: "numeric",
+    month: "long",
     day: "numeric",
   }).format(date);
-  return `${formattedDate}, ${slot.startTime}–${slot.endTime}`;
+  return `${formattedDate} · ${slot.startTime}–${slot.endTime}`;
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    shareUrlInput.select();
+    document.execCommand("copy");
+  }
 }
 
 function readJson(key) {

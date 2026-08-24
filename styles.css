@@ -132,6 +132,49 @@ h1 {
   backdrop-filter: blur(12px);
 }
 
+.invitation-card {
+  text-align: center;
+}
+
+.invitation-card h2 {
+  margin: 0 0 0.75rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-weight: 500;
+}
+
+.invitation-card > p:not(.invitation-flourish, .gentle-reply) {
+  max-width: 30rem;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.invitation-flourish {
+  margin: 0 0 0.4rem;
+  color: var(--peach);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.decision-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.decision-row .button {
+  padding: 0 1.15rem;
+}
+
+.gentle-reply {
+  margin: 1rem 0 0;
+  color: var(--peach-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+}
+
 .love-note {
   display: flex;
   gap: 0.65rem;
@@ -435,6 +478,113 @@ textarea {
   text-align: center;
 }
 
+.keepsake-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 7vw, 3.5rem);
+  background:
+    linear-gradient(rgb(255 255 255 / 94%), rgb(255 250 251 / 94%)),
+    repeating-linear-gradient(45deg, transparent, transparent 8px, rgb(212 90 122 / 4%) 8px, rgb(212 90 122 / 4%) 9px);
+  border: 1px solid #e9bec9;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 7px #fff,
+    inset 0 0 0 8px #f1d3db,
+    var(--shadow);
+}
+
+.keepsake-card::before,
+.keepsake-card::after {
+  position: absolute;
+  color: rgb(212 90 122 / 18%);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 5rem;
+  content: "❦";
+}
+
+.keepsake-card::before {
+  top: 0.5rem;
+  left: 0.7rem;
+  transform: rotate(-35deg);
+}
+
+.keepsake-card::after {
+  right: 0.7rem;
+  bottom: 0.5rem;
+  transform: rotate(145deg);
+}
+
+.keepsake-card h1 {
+  color: var(--peach-dark);
+  font-family: "STKaiti", "KaiTi", "Noto Serif SC", Georgia, serif;
+  font-size: clamp(3.2rem, 13vw, 5.5rem);
+  letter-spacing: 0.12em;
+}
+
+.keepsake-subtitle {
+  margin: 0.7rem 0 1.75rem;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+}
+
+.keepsake-details {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.keepsake-detail {
+  padding: 1rem;
+  background: rgb(255 240 244 / 65%);
+  border-top: 1px solid #edcbd4;
+  border-bottom: 1px solid #edcbd4;
+}
+
+.keepsake-detail h2 {
+  margin: 0 0 0.4rem;
+  color: var(--peach-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.keepsake-detail p {
+  margin: 0.25rem 0;
+  font-weight: 650;
+}
+
+.keepsake-note {
+  margin: 1.25rem 0;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.keepsake-signature {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+}
+
+.keepsake-signature b {
+  color: var(--peach);
+}
+
+.share-help {
+  margin: 0.35rem 0 0.8rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .success-mark {
   display: grid;
   width: 3.5rem;
@@ -529,6 +679,16 @@ textarea {
 
   .section-heading {
     align-items: start;
+  }
+
+  .decision-row,
+  .button-row {
+    flex-direction: column;
+  }
+
+  .decision-row .button,
+  .button-row .button {
+    width: 100%;
   }
 }
 

@@ -1,19 +1,19 @@
 # Plan Together
 
-A small, mobile-friendly website for finding a date, time, and activity that works
-for friends. It is a static site designed for GitHub Pages.
+A small, mobile-friendly invitation made for Judy. It is a static site designed
+for GitHub Pages.
 
 ## How it works
 
-1. The first person adds their available dates and times.
-2. They choose activities such as pickleball, dinner, or coffee.
-3. The site creates an invite link containing their response.
-4. A friend opens the link, adds their response, and sends the updated link back.
-5. The result shows overlapping times and activities everyone selected.
+1. Judy opens the invitation and accepts the date.
+2. She chooses one or more possible dates and times.
+3. She chooses activities such as pickleball, dinner, or coffee.
+4. The site reveals a wedding-invitation-style "佳期已定" confirmation.
+5. Judy shares the generated reply link so the inviter can see her choices.
 
-No backend or database is used. Responses are encoded in the URL fragment, which
+No backend or database is used. Judy's reply is encoded in the URL fragment, which
 browsers do not send to the web server. Anyone who receives the link can still read
-the plan, so the link should be shared only with trusted participants.
+the reply, so the link should be shared only with the inviter.
 
 ## Run locally
 
@@ -40,4 +40,3 @@ npm run check
 3. In the repository, open **Settings > Pages**.
 4. Under **Build and deployment**, choose **GitHub Actions**.
 5. The included workflow tests and publishes the website.
-

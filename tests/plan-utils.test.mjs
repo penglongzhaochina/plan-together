@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   createEmptyPlan,
+  createShareUrl,
   decodePlan,
   encodePlan,
   findCommonActivities,
@@ -28,6 +29,18 @@ test("encodes and decodes plans containing Unicode", () => {
   ], ["晚饭"]));
 
   assert.deepEqual(decodePlan(encodePlan(plan)), plan);
+});
+
+test("creates a reply link that opens the completed invitation", () => {
+  const plan = createEmptyPlan();
+  plan.responses.push(response("Judy", [
+    { date: "2026-09-01", startTime: "18:00", endTime: "20:00" },
+  ], ["Dinner"]));
+
+  const url = new URL(createShareUrl("https://example.com/plan-together/activities.html", plan));
+
+  assert.equal(url.pathname, "/plan-together/activities.html");
+  assert.deepEqual(decodePlan(new URLSearchParams(url.hash.slice(1)).get("plan")), plan);
 });
 
 test("returns activities selected by everyone", () => {
