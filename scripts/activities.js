@@ -76,15 +76,25 @@ copyButton.addEventListener("click", async () => {
 
 function renderResults(plan) {
   const responseCount = plan.responses.length;
-  document.querySelector("#result-count").textContent = (
-    `${responseCount} ${responseCount === 1 ? "response" : "responses"} collected.`
-  );
+  const resultHeading = document.querySelector("#result-heading");
+  document.querySelector("#result-count").textContent = responseCount === 1
+    ? "Your choices are saved. Send the invitation to Judy."
+    : "You and Judy found your date possibilities.";
+  resultHeading.textContent = responseCount === 1
+    ? "Now invite Judy"
+    : "A lovely plan is taking shape";
+  addResponseLink.textContent = responseCount === 1
+    ? "Open the invitation for Judy"
+    : "Plan another date";
+  if (responseCount > 1) {
+    addResponseLink.href = "index.html";
+  }
 
   matches.replaceChildren();
   if (responseCount === 1) {
     matches.append(createPanel(
-      "Waiting for a match",
-      "After your friend adds a response, this page will show your shared free times and activities.",
+      "Waiting for Judy's match",
+      "After Judy adds her response, the page will reveal the times and activities you both chose.",
     ));
     return;
   }
@@ -93,13 +103,13 @@ function renderResults(plan) {
   const timeContent = commonTimes.length
     ? createList(commonTimes.map(formatSlot))
     : "No exact time overlap yet. Try adding more options.";
-  matches.append(createPanel("Everyone is free", timeContent));
+  matches.append(createPanel("Your time together", timeContent));
 
   const commonActivities = findCommonActivities(plan.responses);
   const activityContent = commonActivities.length
     ? createList(commonActivities)
     : "No shared activity yet, but you can still choose together.";
-  matches.append(createPanel("Everyone would enjoy", activityContent));
+  matches.append(createPanel("You would both love", activityContent));
 }
 
 function createPanel(title, content) {

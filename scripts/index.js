@@ -11,7 +11,6 @@ const slotTemplate = document.querySelector("#slot-template");
 const addSlotButton = document.querySelector("#add-slot");
 const error = document.querySelector("#form-error");
 const inviteBanner = document.querySelector("#invite-banner");
-const nameInput = document.querySelector("#participant-name");
 
 const sharedPlan = parsePlanFromHash(window.location.hash);
 const plan = sharedPlan ?? createEmptyPlan();
@@ -20,7 +19,9 @@ sessionStorage.setItem(PLAN_KEY, JSON.stringify(plan));
 
 if (sharedPlan) {
   const count = plan.responses.length;
-  inviteBanner.textContent = `${count} ${count === 1 ? "person has" : "people have"} already responded. Add your choices, then send the new link back to the group.`;
+  inviteBanner.textContent = count === 1
+    ? "Your invitation has arrived, Judy. Add the moments that work for you."
+    : "You and Judy have both shared choices. Add another response only if you want to update the plan.";
   inviteBanner.hidden = false;
 } else if (window.location.hash) {
   showError("This invite link is incomplete or invalid. You can start a new plan below.");
@@ -71,13 +72,6 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  const participantName = nameInput.value.trim();
-  if (!participantName) {
-    showError("Enter your name before continuing.");
-    nameInput.focus();
-    return;
-  }
-
   const availability = [...slots.querySelectorAll(".slot")].map((slot) => ({
     date: slot.querySelector('[name="date"]').value,
     startTime: slot.querySelector('[name="startTime"]').value,
@@ -92,7 +86,7 @@ form.addEventListener("submit", (event) => {
 
   const draft = {
     id: crypto.randomUUID(),
-    name: participantName,
+    name: plan.responses.length === 0 ? "You" : "Judy",
     availability,
     activities: [],
     note: "",

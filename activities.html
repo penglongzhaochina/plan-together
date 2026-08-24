@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#ff6b4a">
-    <title>Plan Together - Activities</title>
+    <meta name="theme-color" content="#c84b6f">
+    <title>You &amp; Judy - Choose a Date</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
       <header class="hero">
-        <a class="brand" href="index.html" aria-label="Plan Together home">
-          <span class="brand-mark" aria-hidden="true">✦</span>
-          Plan Together
+        <a class="brand" href="index.html" aria-label="You and Judy date planner home">
+          <span class="brand-mark" aria-hidden="true">♥</span>
+          You &amp; Judy
         </a>
-        <p class="eyebrow">Almost there</p>
-        <h1>What sounds fun?</h1>
-        <p class="intro">Pick as many as you like. We will show what everyone agrees on.</p>
+        <p class="eyebrow">Make it memorable</p>
+        <h1>What would make Judy smile?</h1>
+        <p class="intro">Choose everything that sounds lovely. We will reveal the ideas you both picked.</p>
       </header>
 
       <section id="activity-card" class="card" aria-labelledby="activity-heading">
+        <div class="love-note" aria-hidden="true">
+          <span>you</span>
+          <b>♥</b>
+          <span>Judy</span>
+        </div>
         <div class="progress" aria-label="Step 2 of 2">
           <span class="progress-step complete">✓</span>
           <span class="progress-line complete"></span>
@@ -61,34 +66,34 @@
 
           <label class="field">
             <span>Another idea <small>(optional)</small></span>
-            <input id="custom-activity" type="text" maxlength="50" placeholder="e.g. Karaoke">
+            <input id="custom-activity" type="text" maxlength="50" placeholder="e.g. Sunset picnic">
           </label>
 
           <label class="field">
             <span>Note <small>(optional)</small></span>
             <textarea id="participant-note" maxlength="200" rows="3"
-              placeholder="Anything your friend should know?"></textarea>
+              placeholder="Leave Judy a sweet note..."></textarea>
           </label>
 
           <p id="form-error" class="error" role="alert" hidden></p>
           <div class="button-row">
             <a class="button secondary" href="index.html">← Back</a>
-            <button class="button primary grow" type="submit">Finish my response</button>
+            <button class="button primary grow" type="submit">Save my date wishes</button>
           </div>
         </form>
       </section>
 
       <section id="result-card" class="card result-card" aria-labelledby="result-heading" hidden>
-        <div class="success-mark" aria-hidden="true">✓</div>
-        <p class="eyebrow">Response saved</p>
-        <h1 id="result-heading">Now invite your friend</h1>
+        <div class="success-mark" aria-hidden="true">♥</div>
+        <p class="eyebrow">One step closer</p>
+        <h1 id="result-heading">Now invite Judy</h1>
         <p id="result-count" class="intro"></p>
 
         <div id="matches" class="matches"></div>
 
         <div class="share-panel">
           <label class="field">
-            <span>Invite link</span>
+            <span>Judy's invitation link</span>
             <div class="copy-field">
               <input id="share-url" type="text" readonly>
               <button id="copy-link" class="button primary compact" type="button">Copy</button>
@@ -99,11 +104,10 @@
           </p>
         </div>
 
-        <a id="add-response" class="button secondary full" href="index.html">Add another response</a>
+        <a id="add-response" class="button secondary full" href="index.html">Open the invitation for Judy</a>
       </section>
     </main>
 
     <script type="module" src="scripts/activities.js"></script>
   </body>
 </html>
-

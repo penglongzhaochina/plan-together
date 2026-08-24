@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#ff6b4a">
-    <title>Plan Together - Availability</title>
+    <meta name="theme-color" content="#c84b6f">
+    <title>You &amp; Judy - Pick a Time</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="shell">
       <header class="hero">
-        <a class="brand" href="index.html" aria-label="Plan Together home">
-          <span class="brand-mark" aria-hidden="true">✦</span>
-          Plan Together
+        <a class="brand" href="index.html" aria-label="You and Judy date planner home">
+          <span class="brand-mark" aria-hidden="true">♥</span>
+          You &amp; Judy
         </a>
-        <p class="eyebrow">Make the group chat shorter</p>
-        <h1>When are you free?</h1>
-        <p class="intro">Add a few options. Your friend can add theirs from the invite link.</p>
+        <p class="eyebrow">A little time for two</p>
+        <h1>When can the magic happen?</h1>
+        <p class="intro">Choose a few moments that work for you, then invite Judy to find the perfect match.</p>
       </header>
 
       <section class="card" aria-labelledby="availability-heading">
+        <div class="love-note" aria-hidden="true">
+          <span>you</span>
+          <b>♥</b>
+          <span>Judy</span>
+        </div>
         <div class="progress" aria-label="Step 1 of 2">
           <span class="progress-step active">1</span>
           <span class="progress-line"></span>
@@ -30,16 +35,11 @@
 
         <form id="availability-form">
           <h2 id="availability-heading" class="sr-only">Your availability</h2>
-          <label class="field">
-            <span>Your name</span>
-            <input id="participant-name" name="participantName" type="text" maxlength="40"
-              autocomplete="name" placeholder="e.g. Alex" required>
-          </label>
 
           <div class="section-heading">
             <div>
-              <span class="label">Date and time options</span>
-              <p>Choose up to 10 windows that work for you.</p>
+              <span class="label">Your date possibilities</span>
+              <p>Choose up to 10 moments you could spend together.</p>
             </div>
             <button id="add-slot" class="button secondary compact" type="button">+ Add time</button>
           </div>
@@ -48,7 +48,7 @@
           <p id="form-error" class="error" role="alert" hidden></p>
 
           <button class="button primary full" type="submit">
-            Next: choose activities
+            Next: dream up the date
             <span aria-hidden="true">→</span>
           </button>
         </form>
@@ -83,4 +83,3 @@
     <script type="module" src="scripts/index.js"></script>
   </body>
 </html>
-

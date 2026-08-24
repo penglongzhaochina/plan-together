@@ -1,15 +1,15 @@
 :root {
   color-scheme: light;
-  --ink: #25221f;
-  --muted: #726b64;
-  --paper: #fffdf9;
+  --ink: #40252f;
+  --muted: #80636d;
+  --paper: #fff8f9;
   --surface: #ffffff;
-  --peach: #ff6b4a;
-  --peach-dark: #d94a2b;
-  --cream: #f7eee4;
-  --sage: #dce9dc;
-  --line: #e9dfd5;
-  --shadow: 0 20px 50px rgb(70 49 31 / 10%);
+  --peach: #d45a7a;
+  --peach-dark: #a93658;
+  --cream: #fff0f2;
+  --sage: #f4dfe5;
+  --line: #efd8df;
+  --shadow: 0 24px 60px rgb(121 48 70 / 14%);
   font-family: Inter, ui-rounded, "SF Pro Rounded", "Segoe UI", sans-serif;
 }
 
@@ -18,13 +18,39 @@
 }
 
 body {
+  position: relative;
   min-height: 100vh;
   margin: 0;
   color: var(--ink);
   background:
-    radial-gradient(circle at 15% 10%, rgb(255 202 126 / 35%), transparent 25rem),
-    radial-gradient(circle at 90% 35%, rgb(189 222 197 / 40%), transparent 28rem),
+    radial-gradient(circle at 15% 10%, rgb(255 187 204 / 46%), transparent 25rem),
+    radial-gradient(circle at 90% 35%, rgb(250 211 221 / 58%), transparent 28rem),
+    linear-gradient(145deg, #fffafa, #fff2f5 55%, #fffafb),
     var(--paper);
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  color: rgb(200 75 111 / 14%);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(9rem, 28vw, 20rem);
+  line-height: 1;
+  content: "♥";
+  pointer-events: none;
+}
+
+body::before {
+  top: -3rem;
+  left: -3rem;
+  transform: rotate(-18deg);
+}
+
+body::after {
+  right: -3rem;
+  bottom: -5rem;
+  transform: rotate(16deg);
 }
 
 button,
@@ -66,8 +92,9 @@ button,
   width: 2rem;
   height: 2rem;
   color: white;
-  background: var(--peach);
+  background: linear-gradient(145deg, #e87592, var(--peach-dark));
   border-radius: 50%;
+  box-shadow: 0 6px 18px rgb(169 54 88 / 25%);
   place-items: center;
 }
 
@@ -98,11 +125,29 @@ h1 {
 
 .card {
   padding: clamp(1.25rem, 5vw, 2.25rem);
-  background: rgb(255 255 255 / 92%);
-  border: 1px solid rgb(255 255 255 / 80%);
-  border-radius: 24px;
+  background: rgb(255 255 255 / 88%);
+  border: 1px solid rgb(255 255 255 / 92%);
+  border-radius: 28px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
+}
+
+.love-note {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  justify-content: center;
+  margin: -0.25rem 0 1.4rem;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.love-note b {
+  color: var(--peach);
+  font-size: 1.05rem;
+  font-style: normal;
 }
 
 .progress {
@@ -127,11 +172,11 @@ h1 {
 .progress-step.active {
   color: white;
   background: var(--peach);
-  box-shadow: 0 0 0 5px rgb(255 107 74 / 14%);
+  box-shadow: 0 0 0 5px rgb(212 90 122 / 14%);
 }
 
 .progress-step.complete {
-  color: #355a42;
+  color: var(--peach-dark);
   background: var(--sage);
 }
 
@@ -176,7 +221,7 @@ textarea {
 input:focus,
 textarea:focus {
   border-color: var(--peach);
-  box-shadow: 0 0 0 3px rgb(255 107 74 / 14%);
+  box-shadow: 0 0 0 3px rgb(212 90 122 / 14%);
 }
 
 textarea {
@@ -301,7 +346,7 @@ textarea {
 .invite-banner {
   margin-bottom: 1.25rem;
   padding: 0.85rem 1rem;
-  color: #355a42;
+  color: #73334a;
   background: var(--sage);
   border-radius: 12px;
   font-size: 0.9rem;
@@ -372,13 +417,13 @@ textarea {
 }
 
 .activity-option input:checked + .activity-content {
-  background: #fff0e9;
+  background: #ffe8ee;
   border-color: var(--peach);
   transform: translateY(-1px);
 }
 
 .activity-option input:focus-visible + .activity-content {
-  outline: 3px solid rgb(255 107 74 / 25%);
+  outline: 3px solid rgb(212 90 122 / 25%);
   outline-offset: 2px;
 }
 
@@ -395,7 +440,7 @@ textarea {
   width: 3.5rem;
   height: 3.5rem;
   margin: -0.25rem auto 1rem;
-  color: #355a42;
+  color: var(--peach-dark);
   background: var(--sage);
   border-radius: 50%;
   font-size: 1.5rem;
@@ -441,8 +486,8 @@ textarea {
   margin-top: 1.25rem;
   padding: 1rem;
   text-align: left;
-  background: #f6faf5;
-  border: 1px solid #d6e4d6;
+  background: #fff7f9;
+  border: 1px solid #f0d5de;
   border-radius: 16px;
 }
 
@@ -495,4 +540,3 @@ textarea {
     transition: none !important;
   }
 }
-
