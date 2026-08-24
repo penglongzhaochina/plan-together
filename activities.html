@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#ff6b4a">
+    <title>Plan Together - Activities</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <a class="brand" href="index.html" aria-label="Plan Together home">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          Plan Together
+        </a>
+        <p class="eyebrow">Almost there</p>
+        <h1>What sounds fun?</h1>
+        <p class="intro">Pick as many as you like. We will show what everyone agrees on.</p>
+      </header>
+
+      <section id="activity-card" class="card" aria-labelledby="activity-heading">
+        <div class="progress" aria-label="Step 2 of 2">
+          <span class="progress-step complete">✓</span>
+          <span class="progress-line complete"></span>
+          <span class="progress-step active">2</span>
+        </div>
+
+        <form id="activity-form">
+          <h2 id="activity-heading" class="sr-only">Choose activities</h2>
+          <fieldset class="activity-fieldset">
+            <legend class="label">Activities</legend>
+            <div id="activity-grid" class="activity-grid">
+              <label class="activity-option">
+                <input type="checkbox" name="activity" value="Pickleball">
+                <span class="activity-content"><b>🏓</b> Pickleball</span>
+              </label>
+              <label class="activity-option">
+                <input type="checkbox" name="activity" value="Dinner">
+                <span class="activity-content"><b>🍜</b> Dinner</span>
+              </label>
+              <label class="activity-option">
+                <input type="checkbox" name="activity" value="Coffee">
+                <span class="activity-content"><b>☕</b> Coffee</span>
+              </label>
+              <label class="activity-option">
+                <input type="checkbox" name="activity" value="Movie">
+                <span class="activity-content"><b>🎬</b> Movie</span>
+              </label>
+              <label class="activity-option">
+                <input type="checkbox" name="activity" value="Walk">
+                <span class="activity-content"><b>🌿</b> Walk</span>
+              </label>
+              <label class="activity-option">
+                <input type="checkbox" name="activity" value="Board games">
+                <span class="activity-content"><b>🎲</b> Board games</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Another idea <small>(optional)</small></span>
+            <input id="custom-activity" type="text" maxlength="50" placeholder="e.g. Karaoke">
+          </label>
+
+          <label class="field">
+            <span>Note <small>(optional)</small></span>
+            <textarea id="participant-note" maxlength="200" rows="3"
+              placeholder="Anything your friend should know?"></textarea>
+          </label>
+
+          <p id="form-error" class="error" role="alert" hidden></p>
+          <div class="button-row">
+            <a class="button secondary" href="index.html">← Back</a>
+            <button class="button primary grow" type="submit">Finish my response</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="result-card" class="card result-card" aria-labelledby="result-heading" hidden>
+        <div class="success-mark" aria-hidden="true">✓</div>
+        <p class="eyebrow">Response saved</p>
+        <h1 id="result-heading">Now invite your friend</h1>
+        <p id="result-count" class="intro"></p>
+
+        <div id="matches" class="matches"></div>
+
+        <div class="share-panel">
+          <label class="field">
+            <span>Invite link</span>
+            <div class="copy-field">
+              <input id="share-url" type="text" readonly>
+              <button id="copy-link" class="button primary compact" type="button">Copy</button>
+            </div>
+          </label>
+          <p class="privacy-note left">
+            Anyone with this link can read the plan. Share it only with people you trust.
+          </p>
+        </div>
+
+        <a id="add-response" class="button secondary full" href="index.html">Add another response</a>
+      </section>
+    </main>
+
+    <script type="module" src="scripts/activities.js"></script>
+  </body>
+</html>
+

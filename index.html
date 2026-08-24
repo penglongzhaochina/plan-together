@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#ff6b4a">
+    <title>Plan Together - Availability</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <a class="brand" href="index.html" aria-label="Plan Together home">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          Plan Together
+        </a>
+        <p class="eyebrow">Make the group chat shorter</p>
+        <h1>When are you free?</h1>
+        <p class="intro">Add a few options. Your friend can add theirs from the invite link.</p>
+      </header>
+
+      <section class="card" aria-labelledby="availability-heading">
+        <div class="progress" aria-label="Step 1 of 2">
+          <span class="progress-step active">1</span>
+          <span class="progress-line"></span>
+          <span class="progress-step">2</span>
+        </div>
+        <div id="invite-banner" class="invite-banner" hidden></div>
+
+        <form id="availability-form">
+          <h2 id="availability-heading" class="sr-only">Your availability</h2>
+          <label class="field">
+            <span>Your name</span>
+            <input id="participant-name" name="participantName" type="text" maxlength="40"
+              autocomplete="name" placeholder="e.g. Alex" required>
+          </label>
+
+          <div class="section-heading">
+            <div>
+              <span class="label">Date and time options</span>
+              <p>Choose up to 10 windows that work for you.</p>
+            </div>
+            <button id="add-slot" class="button secondary compact" type="button">+ Add time</button>
+          </div>
+
+          <div id="slots" class="slots" aria-live="polite"></div>
+          <p id="form-error" class="error" role="alert" hidden></p>
+
+          <button class="button primary full" type="submit">
+            Next: choose activities
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+      </section>
+
+      <p class="privacy-note">
+        🔒 Nothing is uploaded. Plan details live only inside the invite link.
+      </p>
+    </main>
+
+    <template id="slot-template">
+      <fieldset class="slot">
+        <legend class="sr-only">Availability option</legend>
+        <label class="field">
+          <span>Date</span>
+          <input name="date" type="date" required>
+        </label>
+        <div class="time-fields">
+          <label class="field">
+            <span>From</span>
+            <input name="startTime" type="time" required>
+          </label>
+          <label class="field">
+            <span>To</span>
+            <input name="endTime" type="time" required>
+          </label>
+        </div>
+        <button class="icon-button remove-slot" type="button" aria-label="Remove this time option">×</button>
+      </fieldset>
+    </template>
+
+    <script type="module" src="scripts/index.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,11 @@
+{
+  "name": "plan-together",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check scripts/index.js && node --check scripts/activities.js && node --check scripts/plan-utils.js"
+  }
+}
+
