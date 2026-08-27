@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "check": "node --check scripts/index.js && node --check scripts/activities.js && node --check scripts/plan-utils.js"
+    "check": "node --check scripts/index.js && node --check scripts/activities.js && node --check scripts/plan-utils.js && node --check invite/invite.js && node --check invite/invite-utils.js"
   }
 }
-
