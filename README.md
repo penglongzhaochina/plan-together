@@ -3,16 +3,6 @@
 A small, mobile-friendly invitation made for Judy. It is a static site designed
 for GitHub Pages.
 
-The original Judy invitation remains at the site root. A reusable invitation template
-is available at `invite/`; set the recipient by changing only the `name` query parameter:
-
-```text
-https://penglongzhaochina.github.io/plan-together/invite/?name=Yuxiao
-```
-
-For another person, replace `Yuxiao` in the URL. Each name gets separate browser storage,
-so one invitation cannot overwrite another invitation's progress.
-
 ## How it works
 
 1. Judy opens the invitation and accepts the date.
